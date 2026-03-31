@@ -162,3 +162,5 @@ def parse(txt: str) -> list[Article]:
         articles.append(current_article)
     
     return articles
+
+    __all__ = ['parse', 'Article', 'Paragraph', 'Point']
