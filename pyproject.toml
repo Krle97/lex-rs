@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lex-rs"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Igor", email = "igorkrstic.sm@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "cyrtranslit"
+]
+
+[project.urls]
+Documentation = "https://github.com/Igor/lex-rs#readme"
+Issues = "https://github.com/Igor/lex-rs/issues"
+Source = "https://github.com/Igor/lex-rs"
+
+[tool.hatch.version]
+path = "src/lex_rs/__about__.py"
+
+[tool.hatch.env]
+requires = [
+    "hatch-pip-compile"
+]
+
+[tool.hatch.envs.default]
+type = "pip-compile"
+dependencies = [
+    "cyrtranslit"
+]
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/lex_rs tests}"
+
+[tool.coverage.run]
+source_pkgs = ["lex_rs", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/lex_rs/__about__.py",
+]
+
+[tool.coverage.paths]
+lex_rs = ["src/lex_rs", "*/lex-rs/src/lex_rs"]
+tests = ["tests", "*/lex-rs/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.basedpyright]
+venvPath = "."
+venv = ".venv"
