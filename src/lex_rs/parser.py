@@ -146,7 +146,7 @@ def parse(txt: str) -> list[Article]:
                 current_paragraph.append_point(point)
         
         # Inače, ovo je tekst paragrafa
-        elif line:
+        elif line and (not line[len(line)-1:].isalpha() or line.endswith(" ili")):
             # Sačuvaj prethodni paragraf ako postoji
             if current_paragraph is not None and current_article is not None:
                 current_article.append_paragraph(current_paragraph)

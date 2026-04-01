@@ -9,22 +9,22 @@ class TestParse:
     def test_parse_single_article(self):
         """Test parsiranja jednog člana"""
         text = """Član 1.
-Prvi paragraf"""
+Prvi paragraf."""
         
         articles = parse(text)
         
         assert len(articles) == 1
         assert articles[0].number == "1"
         assert len(articles[0].paragraphs) == 1
-        assert articles[0].paragraphs[0].text == "Prvi paragraf"
+        assert articles[0].paragraphs[0].text == "Prvi paragraf."
     
     def test_parse_article_with_points(self):
         """Test parsiranja člana sa tačkama"""
         text = """Član 1.
 Prvi paragraf:
-1) Prva tačka
-2) Druga tačka
-Drugi paragraf"""
+1) Prva tačka.
+2) Druga tačka.
+Drugi paragraf."""
         
         articles = parse(text)
         
@@ -35,12 +35,12 @@ Drugi paragraf"""
         p1 = articles[0].paragraphs[0]
         assert p1.text == "Prvi paragraf:"
         assert len(p1.points) == 2
-        assert  p1.points[0].text == "Prva tačka"
-        assert  p1.points[1].text == "Druga tačka"
+        assert  p1.points[0].text == "Prva tačka."
+        assert  p1.points[1].text == "Druga tačka."
         
         # Provera drugog paragrafa
         p2 = articles[0].paragraphs[1]
-        assert p2.text == "Drugi paragraf"
+        assert p2.text == "Drugi paragraf."
         assert len(p2.points) == 0
     
     def test_parse_multiple_articles(self):
