@@ -142,7 +142,7 @@ def parse(txt: str) -> list[Article]:
             if current_paragraph.text and current_paragraph.text.endswith(":"):
                 open_paren = line.find(")")
                 number = line[:open_paren]
-                point = Point(number=number,line=line_num, text=line[open_paren+1:])
+                point = Point(number=number,line=line_num, text=line[open_paren+2:])
                 current_paragraph.append_point(point)
         
         # Inače, ovo je tekst paragrafa
@@ -163,4 +163,4 @@ def parse(txt: str) -> list[Article]:
     
     return articles
 
-    __all__ = ['parse', 'Article', 'Paragraph', 'Point']
+    __all__ = ['parse', 'Article', 'Paragraph', 'Point']  # pyright: ignore[reportUnreachable]

@@ -33,6 +33,12 @@ Documentation = "https://github.com/Igor/lex-rs#readme"
 Issues = "https://github.com/Igor/lex-rs/issues"
 Source = "https://github.com/Igor/lex-rs"
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
 [tool.hatch.version]
 path = "src/lex_rs/__about__.py"
 
@@ -46,6 +52,10 @@ type = "pip-compile"
 dependencies = [
     "cyrtranslit"
 ]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest -v"
+test-cov = "pytest --cov=lex_rs --cov-report=term-missing"
 
 [tool.hatch.envs.types]
 extra-dependencies = [

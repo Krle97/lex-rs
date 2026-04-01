@@ -19,3 +19,8 @@ pip install lex-rs
 ## License
 
 `lex-rs` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
+## Run tests
+```console
+hatch run pytest -v
+```

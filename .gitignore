@@ -1,3 +1,5 @@
 test_files
 src/lex_rs/__pycache__
+tests/__pycache__
 pyrightconfig.json
+__pycache__
