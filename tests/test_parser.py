@@ -1,7 +1,6 @@
 # tests/test_parser.py
 import pytest  # pyright: ignore[reportUnusedImport]
-from lex_rs.parser import parse, Article, Paragraph, Point  # pyright: ignore[reportUnusedImport]
-
+from lex_rs.parser import parse
 
 class TestParse:
     """Testovi za parse funkciju"""
