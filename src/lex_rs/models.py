@@ -44,7 +44,6 @@ class Paragraph:
         
         return "\n".join(lines)
 
-
 @dataclass
 class Article:
     number: str | None = None
@@ -78,4 +77,22 @@ class Article:
         
         return "\n".join(lines)
 
-__all__ = ['Article', 'Paragraph', 'Point']
+@dataclass
+class Law:
+    name: str | None = None
+    last_publication: str | None = None
+    articles: list[Article] = field(default_factory=list)
+
+    @override
+    def __str__(self) -> str:
+        if self.name is None:
+            return "Prazan zakonik."
+
+        lines: list[str] = [f"{self.name}\n{self.last_publication}"]
+
+        for article in self.articles:
+            lines.append(str(article))
+
+        return "\n".join(lines)
+
+__all__ = ['Law', 'Article', 'Paragraph', 'Point']
