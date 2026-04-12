@@ -10,12 +10,12 @@ class TestParse:
         text = """Član 1.
 Prvi paragraf."""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert len(articles) == 1
-        assert articles[0].number == "1"
-        assert len(articles[0].paragraphs) == 1
-        assert articles[0].paragraphs[0].text == "Prvi paragraf."
+        assert len(law.articles) == 1
+        assert law.articles[0].number == "1"
+        assert len(law.articles[0].paragraphs) == 1
+        assert law.articles[0].paragraphs[0].text == "Prvi paragraf."
     
     def test_parse_article_with_points(self):
         """Test parsiranja člana sa tačkama"""
@@ -25,20 +25,20 @@ Prvi paragraf:
 2) Druga tačka.
 Drugi paragraf."""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert len(articles) == 1
-        assert len(articles[0].paragraphs) == 2
+        assert len(law.articles) == 1
+        assert len(law.articles[0].paragraphs) == 2
         
         # Provera prvog paragrafa i tačaka
-        p1 = articles[0].paragraphs[0]
+        p1 = law.articles[0].paragraphs[0]
         assert p1.text == "Prvi paragraf:"
         assert len(p1.points) == 2
         assert  p1.points[0].text == "Prva tačka."
         assert  p1.points[1].text == "Druga tačka."
         
         # Provera drugog paragrafa
-        p2 = articles[0].paragraphs[1]
+        p2 = law.articles[0].paragraphs[1]
         assert p2.text == "Drugi paragraf."
         assert len(p2.points) == 0
     
@@ -51,12 +51,12 @@ Drugi član
 Član 3.
 Treći član"""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert len(articles) == 3
-        assert articles[0].number == "1"
-        assert articles[1].number == "2"
-        assert articles[2].number == "3"
+        assert len(law.articles) == 3
+        assert law.articles[0].number == "1"
+        assert law.articles[1].number == "2"
+        assert law.articles[2].number == "3"
     
     def test_parse_with_roman_numerals(self):
         """Test parsiranja sa rimskim brojevima (treba da se preskoče)"""
@@ -64,11 +64,11 @@ Treći član"""
 Član 1.
 Prvi paragraf"""
         
-        articles = parse(text)
+        law = parse(text)
         
         # Rimski broj treba da bude preskočen, samo član se parsira
-        assert len(articles) == 1
-        assert articles[0].number == "1"
+        assert len(law.articles) == 1
+        assert law.articles[0].number == "1"
     
     def test_parse_with_uppercase_section(self):
         """Test parsiranja sa naslovom velikim slovima (treba da se preskoči)"""
@@ -76,35 +76,35 @@ Prvi paragraf"""
 Član 1.
 Prvi paragraf"""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert len(articles) == 1
-        assert articles[0].number == "1"
+        assert len(law.articles) == 1
+        assert law.articles[0].number == "1"
     
     def test_parse_empty_text(self):
         """Test sa praznim tekstom"""
-        articles = parse("")
+        law = parse("")
         
-        assert articles == []
+        assert law.articles == []
     
     def test_parse_without_articles(self):
         """Test teksta bez članova"""
         text = """Ovo je običan tekst
 bez ikakvih članova"""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert articles == []
+        assert law.articles == []
     
     def test_parse_article_number_with_dot(self):
         """Test člana sa tačkom u broju"""
         text = """Član 1a.
 Prvi paragraf"""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert len(articles) == 1
-        assert articles[0].number == "1a"
+        assert len(law.articles) == 1
+        assert law.articles[0].number == "1a"
     
     def test_parse_article_with_colon_in_paragraph(self):
         """Test paragrafa koji se završava sa dvotačkom"""
@@ -113,10 +113,10 @@ Paragraf sa dvotačkom:
 1) Prva tačka
 2) Druga tačka"""
         
-        articles = parse(text)
+        law = parse(text)
         
-        assert len(articles) == 1
-        p1 = articles[0].paragraphs[0]
+        assert len(law.articles) == 1
+        p1 = law.articles[0].paragraphs[0]
         assert p1.text == "Paragraf sa dvotačkom:"
         assert len(p1.points) == 2
 
@@ -140,12 +140,12 @@ Paragraf sa dvotačkom:
 4) да обавести послодавца о свакој врсти потенцијалне опасности за живот и здравље и настанак материјалне штете.
 
 3) Обавезе послодавца"""
-        articles = parse(text)
+        law = parse(text)
 
-        article1 = articles[0]
-        article2 = articles[1]
+        article1 = law.articles[0]
+        article2 = law.articles[1]
 
-        assert len(articles) == 2
+        assert len(law.articles) == 2
         assert len(article1.paragraphs) == 1
         assert article1.paragraphs[0].text == "Ugovorom o radu ili odlukom poslodavca može se utvrditi učešće zaposlenog u dobiti ostvarenoj u poslovnoj godini, u skladu sa zakonom i opštim aktom."
 
@@ -161,11 +161,11 @@ Paragraf sa dvotačkom:
 *Службени гласник РС, број 113/2017
 
 ХХIII. ПРЕЛАЗНЕ И ЗАВРШНЕ ОДРЕДБЕ"""
-        articles = parse(text)
+        law = parse(text)
 
-        article1 = articles[0]
+        article1 = law.articles[0]
 
-        assert len(articles) == 1
+        assert len(law.articles) == 1
         assert len(article1.paragraphs) == 1
         assert article1.number == "276a"
         assert article1.paragraphs[0].text == "Propuštanje propisanog roka za podnošenje jedinstvene prijave na obavezno socijalno osiguranje (član 35. stav 2), predstavlja prekršaj za koji se izriče novčana kazna propisana članom 31. Zakona o Centralnom registru obaveznog socijalnog osiguranja („Službeni glasnik RS”, br. 30/10, 44/14 – dr. zakon i 116/14)."
@@ -193,12 +193,12 @@ Paragraf sa dvotačkom:
 Запослени млађи од 18 година живота и запослена особа са инвалидитетом имају право на посебну заштиту, у складу са законом.
 
 *Службени гласник РС, број 75/2014"""
-        articles = parse(text)
+        law = parse(text)
 
-        article1 = articles[0]
-        article2 = articles[1]
+        article1 = law.articles[0]
+        article2 = law.articles[1]
 
-        assert len(articles) == 2
+        assert len(law.articles) == 2
         assert len(article1.paragraphs) == 2
         assert article1.paragraphs[1].text == "Pravo da se zahteva utvrđivanje ništavosti ne zastareva."
 

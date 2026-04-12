@@ -13,7 +13,10 @@ def _all_upper_but_J(line : str) -> bool:
     return ret_val
 
 def _parse_law_name(txt: str):
-    return txt.splitlines()[0].split(":")[-1].strip()
+    if txt:
+        return txt.splitlines()[0].split(":")[-1].strip()
+    else:
+        return ""
 
 def _parse_publication(txt: str):
     start_liners = [
