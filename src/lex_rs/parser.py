@@ -13,10 +13,29 @@ def _all_upper_but_J(line : str) -> bool:
     return ret_val
 
 def _parse_law_name(txt: str):
-    if txt:
-        return txt.splitlines()[0].split(":")[-1].strip()
-    else:
-        return ""
+    start_liners = [
+        "Službeni glasnik RS", 
+        "Službeni glasnik SRS", 
+        "Službeni list SRJ", 
+        "Službeni list SFRJ",
+        ]
+    end_liners = [
+        "ZAKON",
+        "ZAKONIK",
+        "PRAVILNIK"
+    ]
+    start_line = None
+    end_line = None
+    for line_num, line in enumerate(txt.splitlines()):
+        if start_line and end_line:
+            return " ".join(txt.splitlines()[start_line:end_line])
+        for end_word in end_liners:
+            if line.strip().endswith(end_word):
+                start_line = line_num
+            for start_word in start_liners:
+                if line.startswith(start_word) or line[1:].startswith(start_word):
+                    end_line = line_num
+    return ""
 
 def _parse_publication(txt: str):
     start_liners = [
@@ -28,7 +47,7 @@ def _parse_publication(txt: str):
      
     for line in txt.splitlines():
         for start_word in start_liners:
-            if line[1:].startswith(start_word):
+            if line.startswith(start_word) or line[1:].startswith(start_word):
                 full_publication = line.split(",")[-1].strip()
                 short_publication: str | None = None
                 for word_idx, word in enumerate(full_publication.split()):

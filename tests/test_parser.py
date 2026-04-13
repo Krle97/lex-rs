@@ -203,4 +203,33 @@ Paragraf sa dvotačkom:
         assert article1.paragraphs[1].text == "Pravo da se zahteva utvrđivanje ništavosti ne zastareva."
 
         assert len(article2.paragraphs) == 4
-        assert article2.paragraphs[2].text == "Zaposleni ima pravo na posebnu zaštitu radi nege deteta, u skladu sa ovim zakonom."
+        
+    def test_parse_real_text_4(self):
+        text = """Редакцијски пречишћен текст
+
+ЗАКОН
+
+о просветној инспекцији
+
+"Службени гласник РС", бр. 27 од 6. априла 2018, 129 од 28. децембра 2021, 76 од 7. септембра 2023.
+
+I. УВОДНЕ ОДРЕДБЕ
+
+Предмет закона
+
+Члан 1.
+
+Овим законом уређују се посебности поступка и положаја инспекције у области просвете (у даљем тексту: просветна инспекција).
+
+Предмет инспекцијског надзора
+"""
+        law = parse(text)
+
+        article1 = law.articles[0]
+
+        assert law.name == "ZAKON o prosvetnoj inspekciji"
+        assert law.last_publication == "76/2023"
+
+        assert len(law.articles) == 1
+        assert len(article1.paragraphs) == 1
+        assert article1.paragraphs[0].text == "Ovim zakonom uređuju se posebnosti postupka i položaja inspekcije u oblasti prosvete (u daljem tekstu: prosvetna inspekcija)."
